@@ -1,0 +1,23 @@
+<div class="widget">
+  <h1 class="widget__title">
+    <p class="widget__part-title">{{ title_part_1 }}</p>
+    <p class="widget__part-title">{{ title_part_2 }}</p>
+  </h1>
+  <form action="/" class="widget__form form">
+    {{> ../../components/Input/index.hbs
+      class="widget__field"
+      name="date-from"
+      isRequired="true"
+    }}
+    {{> ../../components/Input/index.hbs
+      class="widget__field"
+      name="date-to"
+      isRequired="true"
+    }}
+    {{> ../../components/Button/index.hbs
+      class="widget__button"
+    }}
+    
+  </form>
+  <p class="widget__desciprion">{{ description }}</p>
+</div>

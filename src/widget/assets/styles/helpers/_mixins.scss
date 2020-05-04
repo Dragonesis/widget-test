@@ -1,0 +1,89 @@
+@mixin hid {
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+@mixin vis {
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+}
+
+@mixin lh($line-height, $font-size) {
+  line-height: $line-height / $font-size;
+}
+
+@mixin multi-ellipsis($font-size, $line-height, $lines-to-show) {
+  display: block;
+  display: -webkit-box;
+  max-height: $font-size*$line-height*$lines-to-show+px;
+  font-size: $font-size+px;
+  line-height: $line-height;
+  -webkit-line-clamp: $lines-to-show;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@mixin anim($args...) {
+  $type: nth($args, length($args));
+  $props: $args;
+  $result: ();
+
+  @for $i from 1 through length($props) {
+    $anim: length($args);
+    $prop: nth($props, $i);
+    $result: append($result, $prop);
+    $result: append($result, unquote($string: '0.15s ease-in-out 0s'));
+    @if $i != length($props) {
+      $result: append($result, unquote($string: ','));
+    }
+  }
+  transition: $result;
+}
+
+@function change-size($value, $multiplier) {
+  @return floor($value * $multiplier);
+}
+
+// @include animLong(opacity, transform)
+@mixin animLong($args...) {
+  $type: nth($args, length($args));
+  $props: $args;
+  $result: ();
+
+  @for $i from 1 through length($props) {
+    $anim: length($args);
+    $prop: nth($props, $i);
+    $result: append($result, $prop);
+    $result: append($result, unquote($string: '0.3s ease-in-out 0s'));
+    @if $i != length($props) {
+      $result: append($result, unquote($string: ','));
+    }
+  }
+  transition: $result;
+}
+
+// @include mediaFrom($tablet-small) {}
+// @include mediaFrom($tablet-large) {}
+@mixin mediaFrom($breakpoint) {
+  @media screen and (min-width: $breakpoint) {
+    @content;
+  }
+}
+
+// @include mediaFrom($$tablet-large) {}
+// @include mediaFrom($tablet-small) {}
+@mixin mediaTo($breakpoint) {
+  @media screen and (max-width: $breakpoint - 1) {
+    @content;
+  }
+}
+
+// @include mediaBetween($tablet-small, $tablet-large) {}
+@mixin mediaBetween($min, $max) {
+  @media screen and (min-width: $min) and (max-width: $max - 1) {
+    @content;
+  }
+}
